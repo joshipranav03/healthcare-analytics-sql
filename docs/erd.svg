@@ -1,0 +1,128 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 600" font-family="Segoe UI, Helvetica, Arial, sans-serif" font-size="12">
+  <defs>
+    <style>
+      .tbl   { fill: #ffffff; stroke: #334155; stroke-width: 1.5; rx: 6; }
+      .hdr   { fill: #336791; }
+      .htxt  { fill: #ffffff; font-weight: 700; }
+      .ctxt  { fill: #1e293b; }
+      .pk    { font-weight: 700; }
+      .rel   { stroke: #64748b; stroke-width: 1.6; fill: none; }
+      .dot   { fill: #336791; }
+      .cap   { fill: #475569; font-style: italic; }
+    </style>
+  </defs>
+
+  <text x="20" y="26" font-size="18" font-weight="700" fill="#1e293b">Northwind General Health — Data Model</text>
+  <text x="20" y="46" class="cap">8 tables · the encounter (hospital visit) is the central fact table</text>
+
+  <!-- Relationship lines (drawn first, behind boxes) -->
+  <!-- departments -> providers -->
+  <path class="rel" d="M120 175 L120 250"/>
+  <!-- departments -> encounters -->
+  <path class="rel" d="M210 150 C320 150 330 250 430 270"/>
+  <!-- providers -> encounters -->
+  <path class="rel" d="M210 300 L430 300"/>
+  <!-- patients -> encounters -->
+  <path class="rel" d="M430 110 C360 180 380 240 430 280"/>
+  <!-- encounters -> diagnoses -->
+  <path class="rel" d="M610 270 C680 200 700 150 720 120"/>
+  <!-- encounters -> procedures -->
+  <path class="rel" d="M610 285 C690 270 700 255 720 250"/>
+  <!-- encounters -> prescriptions -->
+  <path class="rel" d="M610 305 C690 330 700 360 720 380"/>
+  <!-- encounters -> billing -->
+  <path class="rel" d="M610 320 C680 420 700 480 720 500"/>
+
+  <!-- PATIENTS -->
+  <g>
+    <rect class="tbl" x="370" y="70" width="170" height="58" rx="6"/>
+    <rect class="hdr" x="370" y="70" width="170" height="22" rx="6"/>
+    <rect class="hdr" x="370" y="81" width="170" height="11"/>
+    <text class="htxt" x="380" y="85">patients</text>
+    <text class="ctxt pk" x="380" y="106">PK patient_id</text>
+    <text class="ctxt" x="380" y="122">gender · birth_date · insurance</text>
+  </g>
+
+  <!-- DEPARTMENTS -->
+  <g>
+    <rect class="tbl" x="35" y="110" width="175" height="58" rx="6"/>
+    <rect class="hdr" x="35" y="110" width="175" height="22" rx="6"/>
+    <rect class="hdr" x="35" y="121" width="175" height="11"/>
+    <text class="htxt" x="45" y="125">departments</text>
+    <text class="ctxt pk" x="45" y="146">PK department_id</text>
+    <text class="ctxt" x="45" y="162">department_name · type</text>
+  </g>
+
+  <!-- PROVIDERS -->
+  <g>
+    <rect class="tbl" x="35" y="252" width="175" height="72" rx="6"/>
+    <rect class="hdr" x="35" y="252" width="175" height="22" rx="6"/>
+    <rect class="hdr" x="35" y="263" width="175" height="11"/>
+    <text class="htxt" x="45" y="267">providers</text>
+    <text class="ctxt pk" x="45" y="288">PK provider_id</text>
+    <text class="ctxt" x="45" y="304">FK department_id</text>
+    <text class="ctxt" x="45" y="320">specialty · hire_date</text>
+  </g>
+
+  <!-- ENCOUNTERS (center) -->
+  <g>
+    <rect class="tbl" x="430" y="250" width="180" height="104" rx="6"/>
+    <rect class="hdr" x="430" y="250" width="180" height="22" rx="6"/>
+    <rect class="hdr" x="430" y="261" width="180" height="11"/>
+    <text class="htxt" x="440" y="265">encounters</text>
+    <text class="ctxt pk" x="440" y="286">PK encounter_id</text>
+    <text class="ctxt" x="440" y="302">FK patient_id</text>
+    <text class="ctxt" x="440" y="318">FK provider_id</text>
+    <text class="ctxt" x="440" y="334">FK department_id</text>
+    <text class="ctxt" x="440" y="350">admit_date · discharge_date</text>
+  </g>
+
+  <!-- DIAGNOSES -->
+  <g>
+    <rect class="tbl" x="715" y="88" width="180" height="58" rx="6"/>
+    <rect class="hdr" x="715" y="88" width="180" height="22" rx="6"/>
+    <rect class="hdr" x="715" y="99" width="180" height="11"/>
+    <text class="htxt" x="725" y="103">diagnoses</text>
+    <text class="ctxt pk" x="725" y="124">PK diagnosis_id  ·  FK encounter_id</text>
+    <text class="ctxt" x="725" y="140">icd10_code · is_primary</text>
+  </g>
+
+  <!-- PROCEDURES -->
+  <g>
+    <rect class="tbl" x="715" y="222" width="180" height="58" rx="6"/>
+    <rect class="hdr" x="715" y="222" width="180" height="22" rx="6"/>
+    <rect class="hdr" x="715" y="233" width="180" height="11"/>
+    <text class="htxt" x="725" y="237">procedures</text>
+    <text class="ctxt pk" x="725" y="258">PK procedure_id  ·  FK encounter_id</text>
+    <text class="ctxt" x="725" y="274">procedure_name · date</text>
+  </g>
+
+  <!-- PRESCRIPTIONS -->
+  <g>
+    <rect class="tbl" x="715" y="352" width="180" height="58" rx="6"/>
+    <rect class="hdr" x="715" y="352" width="180" height="22" rx="6"/>
+    <rect class="hdr" x="715" y="363" width="180" height="11"/>
+    <text class="htxt" x="725" y="367">prescriptions</text>
+    <text class="ctxt pk" x="725" y="388">PK prescription_id  ·  FK encounter_id</text>
+    <text class="ctxt" x="725" y="404">medication_name · route</text>
+  </g>
+
+  <!-- BILLING -->
+  <g>
+    <rect class="tbl" x="715" y="472" width="180" height="58" rx="6"/>
+    <rect class="hdr" x="715" y="472" width="180" height="22" rx="6"/>
+    <rect class="hdr" x="715" y="483" width="180" height="11"/>
+    <text class="htxt" x="725" y="487">billing  (1:1)</text>
+    <text class="ctxt pk" x="725" y="508">PK/FK encounter_id</text>
+    <text class="ctxt" x="725" y="524">total_charge · paid · status</text>
+  </g>
+
+  <!-- crow's-foot-ish endpoint dots -->
+  <circle class="dot" cx="430" cy="270" r="3"/>
+  <circle class="dot" cx="430" cy="300" r="3"/>
+  <circle class="dot" cx="120" cy="252" r="3"/>
+  <circle class="dot" cx="715" cy="117" r="3"/>
+  <circle class="dot" cx="715" cy="251" r="3"/>
+  <circle class="dot" cx="715" cy="381" r="3"/>
+  <circle class="dot" cx="715" cy="501" r="3"/>
+</svg>

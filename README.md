@@ -4,6 +4,7 @@
 > Built to demonstrate practical **PostgreSQL** skills from schema design
 > and data loading to advanced analytical queries and business insights.
 
+[![SQL checks](https://github.com/joshipranav03/healthcare-analytics-sql/actions/workflows/sql-checks.yml/badge.svg)](https://github.com/joshipranav03/healthcare-analytics-sql/actions/workflows/sql-checks.yml)
 ![SQL](https://img.shields.io/badge/SQL-PostgreSQL-336791?logo=postgresql&logoColor=white)
 ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
 ![License](https://img.shields.io/badge/License-MIT-green)
@@ -43,10 +44,15 @@ healthcare-analytics-sql/
 │       ├── 05_revenue_and_billing.sql       ⭐⭐   ratios + collections
 │       └── 06_advanced_cohorts_and_windows.sql ⭐⭐⭐⭐ running totals, NTILE, percentiles
 ├── findings/
-│   └── insights.md           # Written analysis & recommendations
-└── scripts/
-    ├── generate_data.py      # Reproducible synthetic data generator
-    └── run_analysis_sqlite.py# Zero-setup demo: runs analysis in SQLite
+│   ├── insights.md           # Written analysis & recommendations
+│   └── sample_query_outputs.md   # Actual results, for quick browsing
+├── docs/
+│   └── erd.svg               # Entity-relationship diagram
+├── scripts/
+│   ├── generate_data.py      # Reproducible synthetic data generator
+│   └── run_analysis_sqlite.py# Zero-setup demo: runs analysis in SQLite
+└── .github/workflows/
+    └── sql-checks.yml        # CI: regenerates data + runs every query
 ```
 
 ## 🧩 Data model
@@ -54,14 +60,7 @@ healthcare-analytics-sql/
 Eight related tables, organized around the **encounter** (a hospital visit)
 as the central fact table:
 
-```
-departments ──┐
-              ├──< providers ──┐
-patients ─────┼────────────────┼──< encounters ──┬──< diagnoses
-              │                                   ├──< procedures
-              │                                   ├──< prescriptions
-              └───────────────────────────────────┴──── billing (1:1)
-```
+![Entity-relationship diagram](docs/erd.svg)
 
 | Table           | Rows   | Description                                  |
 |-----------------|-------:|----------------------------------------------|
@@ -121,7 +120,8 @@ python scripts/generate_data.py     # deterministic; re-creates data/*.csv
 
 ## 📈 Selected findings
 
-A few highlights from [`findings/insights.md`](findings/insights.md):
+A few highlights from [`findings/insights.md`](findings/insights.md) (see the
+raw query results in [`findings/sample_query_outputs.md`](findings/sample_query_outputs.md)):
 
 - **30-day readmission rate is 10.2% overall**, peaking in **Oncology
   (13.6%)** and **Orthopedics (12.3%)** — the top targets for intervention.

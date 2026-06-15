@@ -1,0 +1,30 @@
+name: SQL checks
+
+# Runs on every push and pull request to main. Confirms the dataset is
+# internally consistent and that every analysis query executes successfully.
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Regenerate data and confirm it is unchanged
+        run: |
+          python scripts/generate_data.py
+          git diff --exit-code -- data/ \
+            || (echo "::error::Generated data differs from committed CSVs" && exit 1)
+
+      - name: Run all analysis queries (SQLite)
+        run: python scripts/run_analysis_sqlite.py
